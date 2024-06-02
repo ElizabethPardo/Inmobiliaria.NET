@@ -228,8 +228,16 @@ namespace Inmobiliaria.Api
             try
             {
                 var usuario = User.Identity.Name;
-                return Ok(contexto.Inmueble.Include(e => e.Duenio).Where(e => e.Duenio.Email == usuario && e.Estado));
+               // return Ok(contexto.Inmueble.Include(e => e.Duenio).Where(e => e.Duenio.Email == usuario && e.Estado));
+                var res=contexto.Contrato
+                        .Include(x => x.Inquilino)
+                        .Include(x => x.Inmueble)
+                        .Include(x => x.Inmueble.Duenio)
+                        .Where(y => y.Inmueble.Duenio.Email == usuario && y.Inmueble.Estado)
+                        .Select(x => x.Inmueble);
 
+             
+                return Ok(res);
             }
             catch (Exception ex)
             {
