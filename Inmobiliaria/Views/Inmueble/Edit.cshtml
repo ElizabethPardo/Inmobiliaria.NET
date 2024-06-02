@@ -1,0 +1,80 @@
+﻿@model Inmobiliaria.Models.Inmueble
+
+@{ ViewData["Title"] = "Editar"; }
+
+<h2>Actualizar datos</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" readonly/>
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Direccion" class="control-label"></label>
+                <input asp-for="Direccion" class="form-control" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ambientes" class="control-label"></label>
+                <input asp-for="Ambientes" class="form-control" />
+                <span asp-validation-for="Ambientes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Uso</label>
+                <select class="form-control" name="Uso">
+                    @foreach (var item in (IDictionary<int, string>)ViewBag.Usos)
+                    {
+                     <option value="@item.Key">@(item.Value)</option>}
+                </select>
+                <span asp-validation-for="Uso" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Tipo</label>
+                <select class="form-control" name="Tipo">
+                    @foreach (var item in (IDictionary<int, string>)ViewBag.Tipos)
+                    {
+                     <option value="@item.Key">@(item.Value)</option>}
+                </select>
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Precio" class="control-label"></label>
+                <input asp-for="Precio" class="form-control" />
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" />
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <!--
+    <div class="form-group">
+        <label asp-for="PropietarioId" class="control-label"></label>
+        <input asp-for="PropietarioId" class="form-control" />
+        <span asp-validation-for="PropietarioId" class="text-danger"></span>
+    </div>
+    -->
+
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-dark" />
+                @if(ViewBag.Pro == null)
+                {
+                <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                }
+                else{
+                   <a asp-action="PorPropietario" asp-controller="Inmueble" asp-route-id="@Model.PropietarioId" class="btn btn-secondary">Volver</a>
+                }
+
+
+            </div>
+        </form>
+    </div>
+</div>
+
+

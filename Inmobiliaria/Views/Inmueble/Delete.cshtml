@@ -1,0 +1,75 @@
+﻿@model Inmobiliaria.Models.Inmueble
+
+@{ ViewData["Title"] = "Eliminar"; }
+
+<h2>Eliminar inmueble</h2>
+
+<h3>Seguro que desea eliminar el inmueble?</h3>
+<div>
+    
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ambientes)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ambientes)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Uso)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UsoNombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Tipo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TipoNombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Precio)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Precio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PropietarioId)
+        </dt>
+        <dd class="col-sm-10">
+        @(Model.Duenio.Nombre + " " + Model.Duenio.Apellido)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+
+        @if (ViewBag.Pro == null)
+        {
+            <a asp-action="Index" class="btn btn-secondary">Volver</a> 
+        }
+        else
+        {
+          <a asp-action="PorPropietario" asp-controller="Inmueble" asp-route-id="@Model.PropietarioId" class="btn btn-secondary">Volver</a>
+        }
+    </form>
+</div>
+

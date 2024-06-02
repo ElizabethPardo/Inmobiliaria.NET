@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Inmobiliaria.Models.Inmueble>
+
+@{ ViewData["Title"] = "Index"; }
+
+<h2>INMUEBLES</h2>
+
+    <a asp-action="Create" class="btn btn-dark">Crear nuevo<i class="fas fa-plus"> </i></a>
+    <a asp-action="InmueblesDisponibles" title="Inmuebles disponibles" class="btn btn-dark">Inmuebles disponibles por estado</a>
+<br><br>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ambientes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PropietarioId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Direccion)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Ambientes)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.UsoNombre)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TipoNombre)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Precio)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Estado)
+    </td>
+    <td>
+        @(item.Duenio.Nombre + " " + item.Duenio.Apellido)
+    </td>
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.Id" title="Editar"><i class="fas fa-edit"></i></a>&nbsp;
+        @if (ViewContext.HttpContext.User.IsInRole("Administrador"))
+        {
+          <a asp-action="Delete" asp-route-id="@item.Id" title="Eliminar"><i class="fas fa-trash-alt"></i></a>
+        }
+         &nbsp;<a asp-action="PorInmueble" asp-controller="Contrato" asp-route-id="@item.Id" title="Contratos"><i class="fas fa-file-signature"></i></a>
+    </td>
+</tr>}
+    </tbody>
+</table>

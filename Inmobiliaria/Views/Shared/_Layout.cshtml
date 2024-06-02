@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="~/lib/jquery/dist/jquery.js" />
+    <link rel="stylesheet" href="~/js/bootstrap.js" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  
+    <title>@ViewData["Title"] - Inmobiliaria</title>
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg  navbar navbar-dark bg-dark">
+
+
+
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <img src="/img/logo.png" width="180" height="53" data-toggle="collapse" data-target="#navbarNav" alt="" loading="lazy" style="position:relative; bottom:1px; margin-right:800px;">
+                </a>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Link("login", null)">Iniciar Sesión  <i class="fas fa-sign-in-alt"></i> </a>
+                    </li>
+                </ul>
+
+            }
+            else
+            { <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class=" navbar-brand" asp-controller="Home" asp-action="Index" id="homeMenu" aria-expanded="false" data-display="static">
+                            <img src="/img/logo.png" width="180" height="53" data-toggle="collapse" data-target="#navbarNav" alt="" loading="lazy" style="position: relative; bottom: 1px; margin-right: 300px;">
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li class="nav-item" style="padding:10px;">
+                            <a class="nav-link" asp-controller="Usuario" asp-action="Index"><span class="lnr lnr-star"></span> Usuarios</a>
+                        </li>
+                    }
+                    <li class="nav-item" style="padding:10px;">
+                        <a class="nav-link " asp-controller="Propietario" asp-action="Index"><span class="lnr lnr-user"></span> Propietarios</a>
+                    </li>
+                    <li class="nav-item" style="padding:10px;">
+                        <a class="nav-link" asp-controller="Inquilino" asp-action="Index"><span class="lnr lnr-user"></span> Inquilinos</a>
+                    </li>
+                    <li class="nav-item" style="padding:10px;">
+                        <a class="nav-link" asp-controller="Inmueble" asp-action="Index"><span class="lnr lnr-apartment"></span> Inmuebles</a>
+                    </li>
+                    <li class="nav-item" style="padding:10px;">
+                        <a class="nav-link" asp-controller="Contrato" asp-action="Index"><span class="lnr lnr-enter"></span> Alquileres</a>
+                    </li>
+                    <li class="nav-item dropdown" style="padding:10px;">
+
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @User.Identity.Name <i class="fas fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a asp-controller="Usuario" asp-action="Perfil" class="dropdown-item"> Perfil <i class="fas fa-user"></i></a>
+                            <a asp-controller="Usuario" asp-action="Logout" class="dropdown-item"> Salir <i class="fas fa-sign-out-alt"></i></a>
+                        </div>
+                    </li>
+                </ul>
+
+            }
+
+
+        </nav>
+    </header>
+
+        <main role="main" class="container">
+            <div class="">
+                <br>
+                @if (ViewBag.Id != null)
+                {//alta exitosa
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>¡Éxito!</strong> La entidad fue dada de alta con id: @ViewBag.Id
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"><span class="lnr lnr-cross-circle"></span></span>
+                        </button>
+                    </div> }
+                else if (ViewBag.Mensaje != null)
+                {//cartel general
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <strong>Información:</strong> @ViewBag.Mensaje
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"><span class="lnr lnr-cross-circle"></span></span>
+                        </button>
+                    </div> }
+                else if (ViewBag.Error != null)
+                {//alta exitosa
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>¡Error!</strong> @ViewBag.Error
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"><span class="lnr lnr-cross-circle"></span></span>
+                        </button>
+                    </div> }
+                else if (!String.IsNullOrWhiteSpace(ViewBag.Error))
+                {//ocurrió un error
+                    <environment names="Development">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>¡Error!</strong> Ocurrió: @ViewBag.Error
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"><span class="lnr lnr-cross-circle"></span></span>
+                            </button>
+                            <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"><span class="lnr lnr-plus-circle"></span></a>
+                            <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                @ViewBag.StackTrace
+                            </div>
+                        </div>
+                    </environment>}
+                <div class="m-1 p-1">
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+        <footer class="footer navbar-dark bg-dark">
+            <div class="container">
+                <span class="text-muted">Inmobiliaria - &copy;<a href="#">Privacy</a> &middot; <a href="#">Terms</a> </span>
+            </div>
+        </footer>
+    
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+
+    @RenderSection("Scripts", false)
+    @await Html.PartialAsync("_ScriptsPartial")
+    <script type="text/javascript">
+		function init() {
+			$('.alert').alert();
+		}
+
+		function buscarPropietarios(q) {
+			return $.ajax({//documentación: https://api.jquery.com/jquery.ajax/
+				url: `@Url.Action("Buscar", "Propietarios")/${q}`,
+				//method: "GET",
+				//data: {...},
+			}).done(res => {
+				console.log("Búsqueda: ", res);
+			}).fail(res => {
+				console.log("Error: ", res);
+			});
+		}
+
+		function modalLogin() {
+			var modal = document.getElementById("modal_login");
+			var abrirModal = () => {//función flecha
+				//modales: https://getbootstrap.com/docs/4.0/components/modal/
+				$('#modal_login').modal("show");
+			}
+			if (!modal) {
+				$.ajax({
+					url: `@Url.Action("LoginModal", "Usuario")`,
+				}).done(res => {
+					console.log("Modal: ", res);
+					var div = document.createElement("div");
+					div.innerHTML = res;
+					document.body.appendChild(div);
+					abrirModal();
+				}).fail(res => {
+					console.log("Error: ", res);
+				});
+			} else {
+				abrirModal();
+			}
+		}
+    </script>
+</body>
+</html>

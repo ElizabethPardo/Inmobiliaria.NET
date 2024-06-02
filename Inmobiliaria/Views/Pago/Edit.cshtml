@@ -1,0 +1,40 @@
+﻿@model Inmobiliaria.Models.Pago
+@{ ViewData["Title"] = "Editar Pago"; }
+
+<h2>Actualizar datos</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="IdPago" value="@Model.Id" readonly />
+
+            <div class="form-group">
+                <label asp-for="NroPago" class="control-label"></label>
+                <input asp-for="NroPago" class="form-control" />
+                <span asp-validation-for="NroPago" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaPago" class="control-label"></label>
+                <input asp-for="FechaPago" class="form-control" />
+                <span asp-validation-for="FechaPago" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Importe" class="control-label"></label>
+                <input asp-for="Importe" class="form-control" />
+                <span asp-validation-for="Importe" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-dark" />
+                <a asp-action="PorContrato" asp-controller="Pago" asp-route-id="@Model.ContratoId" title="Pago" class="btn btn-secondary">Volver</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+

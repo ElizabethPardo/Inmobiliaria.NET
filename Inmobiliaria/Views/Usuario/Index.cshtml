@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Inmobiliaria.Models.Usuario>
+
+@{ ViewData["Title"] = "Index"; }
+
+<h1>USUARIOS</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-dark">Crear Nuevo<i class="fas fa-plus"> </i></a>
+</p>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Rol)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Nombre)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Apellido)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Email)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.RolNombre)
+    </td>
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.Id" title="Editar"><i class="fas fa-edit"></i></a>&nbsp;
+        <a asp-action="Delete" asp-route-id="@item.Id" title="Eliminar"><i class="fas fa-trash-alt"></i></a>
+    </td>
+</tr>
+}
+    </tbody>
+</table>
