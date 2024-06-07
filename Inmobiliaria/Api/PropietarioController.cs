@@ -226,13 +226,13 @@ namespace Inmobiliaria.Api
         }
 
 
-        [HttpPut("editarPass/{id}")]
-        public ActionResult CambiarPass(int id, [FromForm] CambioClaveView cambio)
+        [HttpPut("editarPass")]
+        public ActionResult CambiarPass([FromForm] CambioClaveView cambio)
         {
 
             try
             {
-                var prop = contexto.Propietario.FirstOrDefault(x => x.Id == id);
+                var prop = contexto.Propietario.FirstOrDefault(x => x.Email == User.Identity.Name);
 
                 // verificar clave antigüa
                 var pass = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -251,6 +251,13 @@ namespace Inmobiliaria.Api
                         return BadRequest("Clave actual incorrecta");
 
                     }
+
+                    if (cambio.ClaveNueva != cambio.ClaveRepeticion) 
+                    {
+                        return BadRequest("Las claves no coinciden");
+                    }
+
+
 
                     prop.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                          password: cambio.ClaveNueva,
@@ -372,7 +379,9 @@ namespace Inmobiliaria.Api
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
                 var dominio = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
                 var LinkUrl = Url.Action("ResetearPass", "Propietario");
-                var rutaCompleta = Request.Scheme + "://" + GetLocalIpAddress() + ":" + Request.Host.Port + LinkUrl;
+                // var rutaCompleta = Request.Scheme + "://" + GetLocalIpAddress() + ":" + Request.Host.Port + LinkUrl;
+
+                var rutaCompleta = Request.Scheme + "://" + GetLocalIpAddress() + ":" + 45457 + LinkUrl;
 
                 var message = new MimeKit.MimeMessage();
                 message.To.Add(new MailboxAddress(p.Nombre, p.Email));

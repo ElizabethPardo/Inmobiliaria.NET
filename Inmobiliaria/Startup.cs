@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,6 +51,23 @@ namespace Inmobiliaria
                        ValidIssuer = Configuration["TokenAuthentication:Issuer"],
                        ValidAudience = Configuration["TokenAuthentication:Audience"],
                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["TokenAuthentication:SecretKey"])),
+                   };
+
+                   options.Events = new JwtBearerEvents
+                   {
+                       OnMessageReceived = context =>
+                       {
+                           // Leer el token desde el query string
+                           var accessToken = context.Request.Query["access_token"];
+                           // Si el request es para el Hub u otra ruta seleccionada...
+                           var path = context.HttpContext.Request.Path;
+                           if (!string.IsNullOrEmpty(accessToken) &&
+                               path.StartsWithSegments("/api/propietario/ResetearPass"))
+                           {//reemplazar las urls por las necesarias ruta ⬆
+                               context.Token = accessToken;
+                           }
+                           return Task.CompletedTask;
+                       }
                    };
                });
 
